@@ -1,0 +1,11 @@
+- type: log
+  paths:
+    - /var/log/elasticsearch/*.log.log
+  fields_under_root: true
+  fields:
+    log_topic: elasticsearch-log
+  include_lines: [ '\[WARN', '\[ERROR' ]
+  multiline.type: pattern
+  multiline.pattern: '^\[[0-9]{4}-[0-9]{2}-[0-9]{2}'
+  multiline.negate: true
+  multiline.match: after
