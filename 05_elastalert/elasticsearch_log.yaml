@@ -1,0 +1,40 @@
+name: ElasticsearchLogAlarm
+type: new_term
+index: elasticsearch-log-*
+fields:
+- alert
+
+term_delay: 68400
+
+terms_window_size:
+  minutes: 1
+
+filter:
+- term:
+    severity: warn
+
+alert:
+- ms_teams
+
+ms_teams_webhook_url:
+-  <Teams URL>
+ms_teams_alert_summary: "Elasticsearch Log Alarm"
+alert_subject: "Elasticsearch Log Alarm"
+
+realert:
+  minutes: 0
+
+alert_text: |
+    [{0}]
+    - Hostname : {1}
+    - Severity : {2}
+    - Component : {3}
+    - Alert :
+    {4}
+alert_text_args:
+  - @timestamp
+  - hostname
+  - severity
+  - component
+  - alert
+alert_text_type: alert_text_only
