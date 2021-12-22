@@ -1,2 +1,2 @@
-# DataPipeline_ESLogs
-Data Pipeline for Elasticsearch Log Monitoring
+# Data Pipeline for Elasticsearch Log
+Data Pipeline for Elasticsearch Log Monitoring using Filebeat, Kafka and Elastic Stack
