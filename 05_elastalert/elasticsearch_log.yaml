@@ -1,40 +1,42 @@
-name: ElasticsearchLogAlarm
-type: new_term
-index: elasticsearch-log-*
+name: Elasticsearch Log Alarm
+type: new_term
+### elasticsearch-log-* 인덱스에서 alert 가 같은 값에 대해 중복 알람을 억제하는 rule type 'new_term' 사용
+index: elasticsearch-log-*
 fields:
 - alert
 
-term_delay: 68400
-
 terms_window_size:
-  minutes: 1
-
+  minutes: 1
+ 
+### 알람 필터 설정 : 'o.e.m.j.JvmGcMonitorService' 로그에 대해서는 알람을 받지 않는다
 filter:
-- term:
-    severity: warn
-
+- query_string:
+    query: NOT component:"o.e.m.j.JvmGcMonitorService"
+ 
 alert:
 - ms_teams
-
+ 
+### 해당 알람은 Teams 채널에서 받아볼 수 있도록 alert type 'ms_teams' 사용 
 ms_teams_webhook_url:
--  <Teams URL>
-ms_teams_alert_summary: "Elasticsearch Log Alarm"
-alert_subject: "Elasticsearch Log Alarm"
-
+- <Teams Channel URL>
+#ms_teams_alert_fixed_width: true
+ms_teams_alert_summary: "Elasticsearch Log Alart"
+alert_subject: "Elasticsearch Log Alart"
+ 
 realert:
-  minutes: 0
-
-alert_text: |
-    [{0}]
-    - Hostname : {1}
-    - Severity : {2}
-    - Component : {3}
-    - Alert :
-    {4}
+  minutes: 0
+ 
+alert_text: |
+    [{0}]
+    - Hostname : {1}
+    - Severity : {2}
+    - Component : {3}
+    - Alert :
+    {4}
 alert_text_args:
-  - @timestamp
-  - hostname
-  - severity
-  - component
-  - alert
-alert_text_type: alert_text_only
+  - index-timestamp
+  - hostname
+  - severity
+  - component
+  - alert
+alert_text_type: alert_text_only
