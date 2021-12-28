@@ -9,9 +9,12 @@ terms_window_size:
   minutes: 1
  
 ### 알람 필터 설정 : 'o.e.m.j.JvmGcMonitorService' 로그에 대해서는 알람을 받지 않는다
+### 2021.12.28 추가 : JVM 버그로 인한 swap 관련 로그에 대해서는 알람을 받지 않는다
 filter:
 - query_string:
-    query: NOT component:"o.e.m.j.JvmGcMonitorService"
+    query: |
+        NOT component:"o.e.m.j.JvmGcMonitorService"
+        AND NOT alert:"cannot compute used swap when total swap is 0 and free swap is 0"
  
 alert:
 - ms_teams
